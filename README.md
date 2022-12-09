@@ -3,3 +3,4 @@
 2. MA(1)
 3. ARMA(1,1)
 4. ARMA(1,1) against AR(1) likelihood ratio test
+5. check stylized facts in time series
