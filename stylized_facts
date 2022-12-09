@@ -1,0 +1,59 @@
+% based on Economic Forecasting Author(s): Graham Elliott, Allan Timmermann  Publisher: Princeton University Press, Year: 2016  ISBN: 978-0-691-14013-1
+% check stylized facts of time series 
+clear; clc;
+%cd ''
+format longG
+
+
+randn('seed',12345) % seed random number generator
+
+
+% --- Generating data via German DAX stock returns DAX PERFORMANCE-INDEX
+% (^GDAXI) (09.12.21-09.12.22)
+
+% ---
+data  = readtable('^GDAXI(1).csv');
+data=data.Open
+y=data(1:end-1) ./ data(2:end) -1 % create returns
+
+hY1 = adftest(y,Model="ts",Lags=2) %1 stationarity test: indicates that there is sufficient evidence to suggest that y is trend stationary.
+
+% check 5 stylized facts:
+
+%Trend 
+figure;
+hold('on');
+plot(y,'k','LineWidth',2);
+plot(y-detrend(y),'m--')
+hold('off');
+recessionplot;
+
+%Seasonality
+
+
+
+
+
+
+%Aberrant Observations
+C = 1:length(y);
+V =   y;
+[B,d] = rmoutliers(y,"mean");
+out = V.*d;
+for c = 1:length(y)
+    if out(c)==0
+        A(c)=V(c);
+    else
+        A(c)=missing;
+    end
+end
+plot(C,V)
+hold on
+plot(C,A,"o-");
+legend("Original Data","Cleaned Data");
+n = sum(d);
+disp("Removed " + n + " outliers")
+
+%time varying volatility 
+%^Nonlinearity
+
